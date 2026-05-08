@@ -139,7 +139,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 1. **Download the extension**
    ```bash
-   git clone https://github.com/Yassir-Ze/folder-share-copier.git
+   git clone https://github.com/Yassir-Ze/Folder-Share-Copier.git
    # or download & unzip the latest release from GitHub
    ```
 
