@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Folder Share Copier</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="title">Folder Share Copier</h1>
+      <a href="settings.html" class="settings-link" title="Settings">&#9881;</a>
+    </header>
+
+    <!-- Folder selection -->
+    <section class="controls">
+      <button id="selectFolderBtn" class="btn btn-primary">
+        &#128193; Select Folder
+      </button>
+      <input
+        type="file"
+        id="folderInput"
+        webkitdirectory
+        multiple
+        hidden
+        aria-label="Choose a folder"
+      />
+      <span id="folderName" class="folder-name"></span>
+    </section>
+
+    <!-- Ignore patterns -->
+    <section class="ignore-section">
+      <label for="ignorePatterns" class="label-small">Ignore patterns (one per line):</label>
+      <textarea
+        id="ignorePatterns"
+        class="ignore-input"
+        rows="3"
+        placeholder="node_modules&#10;.git&#10;dist&#10;.cache&#10;coverage"
+      ></textarea>
+    </section>
+
+    <!-- Large folder warning (shown when 500+ files detected) -->
+    <section id="largeWarning" class="large-warning hidden">
+      <div class="large-warning-content">
+        <p class="large-warning-title">&#9888; Large Folder Detected</p>
+        <p id="largeWarningText" class="large-warning-text"></p>
+        <div class="large-warning-actions">
+          <button id="cancelLargeBtn" class="btn btn-secondary">Cancel</button>
+          <button id="continueLargeBtn" class="btn btn-primary">Continue Anyway</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- File tree preview -->
+    <section id="treeSection" class="tree-section hidden">
+      <div class="tree-header">
+        <span id="fileCount" class="file-count"></span>
+        <span id="progressDisplay" class="progress-display"></span>
+      </div>
+      <div id="treeContainer" class="tree-container"></div>
+    </section>
+
+    <!-- Collapsible ignored files list -->
+    <section id="ignoredSection" class="ignored-section hidden">
+      <button id="ignoredToggle" class="ignored-toggle" aria-expanded="false">
+        <span id="ignoredToggleArrow">&#9654;</span>
+        Ignored files (<span id="ignoredCountDisplay">0</span>)
+      </button>
+      <div id="ignoredList" class="ignored-list hidden"></div>
+    </section>
+
+    <!-- Warnings (binary/large skips) -->
+    <section id="warningSection" class="warning-section hidden">
+      <p id="warningText" class="warning-text"></p>
+    </section>
+
+    <!-- Output stats and tree-only toggle -->
+    <section id="statsSection" class="stats-section hidden">
+      <div id="outputStats" class="stats-row"></div>
+      <label class="checkbox-label" title="Copy only the file/folder structure, omit file contents">
+        <input type="checkbox" id="treeOnlyCheckbox" />
+        <span class="checkbox-custom"></span>
+        Copy file tree only (no contents)
+      </label>
+    </section>
+
+    <!-- Action buttons -->
+    <section id="actionSection" class="action-section hidden">
+      <button id="selectAnotherBtn" class="btn btn-secondary btn-sm">
+        &#128193; Select Another
+      </button>
+      <button id="copyBtn" class="btn btn-copy" disabled>
+        &#128203; Copy to Clipboard
+      </button>
+    </section>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden" role="alert"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

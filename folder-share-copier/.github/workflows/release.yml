@@ -1,0 +1,48 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Create extension zip
+        run: |
+          mkdir -p dist
+          zip -r "dist/folder-share-copier-v${{ steps.get_version.outputs.VERSION }}.zip" \
+            manifest.json \
+            background.js \
+            popup.html \
+            popup.css \
+            popup.js \
+            settings.html \
+            settings.js \
+            README.md \
+            CHANGELOG.md \
+            LICENSE \
+            CONTRIBUTING.md \
+            icons/icon16.png \
+            icons/icon48.png \
+            icons/icon128.png
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Folder Share Copier v${{ steps.get_version.outputs.VERSION }}"
+          body_path: CHANGELOG.md
+          files: dist/folder-share-copier-v${{ steps.get_version.outputs.VERSION }}.zip
+          generate_release_notes: false

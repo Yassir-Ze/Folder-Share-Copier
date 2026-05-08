@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Folder Share Copier — Settings</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>
+    body {
+      width: 500px;
+      max-height: none;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .settings-app {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .settings-app h1 {
+      font-size: 1.1rem;
+    }
+    .settings-app label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .settings-app .ignore-input {
+      min-height: 120px;
+    }
+    .settings-app .hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .settings-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-save {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .btn-save:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+    .btn-reset {
+      background: transparent;
+      color: var(--text-muted);
+      border-color: var(--border);
+    }
+    .btn-reset:hover {
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+    #saveStatus {
+      font-size: 0.85rem;
+      color: var(--green);
+      transition: opacity 0.3s;
+    }
+    #saveStatus.hidden {
+      opacity: 0;
+    }
+    .back-link {
+      color: var(--accent);
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-app">
+    <header>
+      <h1>Settings</h1>
+      <span class="back-link" style="cursor:default;opacity:0.6;">&larr; Close this tab to return to the extension</span>
+    </header>
+
+    <div>
+      <label for="settingsIgnorePatterns">Default ignore patterns (one per line):</label>
+      <textarea
+        id="settingsIgnorePatterns"
+        class="ignore-input"
+        rows="8"
+        placeholder="node_modules&#10;.git&#10;dist&#10;.cache&#10;coverage"
+      ></textarea>
+      <p class="hint">
+        These patterns are pre-filled in the popup when the extension loads.
+        Supports glob-style wildcards (<code>*</code>).
+      </p>
+    </div>
+
+    <div class="settings-actions">
+      <button id="saveBtn" class="btn btn-save">Save</button>
+      <button id="resetBtn" class="btn btn-reset">Reset to defaults</button>
+      <span id="saveStatus" class="hidden">Saved!</span>
+    </div>
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html>

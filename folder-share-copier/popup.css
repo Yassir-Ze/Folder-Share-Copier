@@ -1,0 +1,424 @@
+/* Folder Share Copier — Dark developer theme
+ * Catppuccin Mocha-inspired color palette.
+ * All measurements use rem for accessibility.
+ * ---------------------------------------- */
+
+:root {
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #181825;
+  --bg-surface: #313244;
+  --bg-hover: #45475a;
+  --text-primary: #cdd6f4;
+  --text-secondary: #a6adc8;
+  --text-muted: #6c7086;
+  --accent: #89b4fa;
+  --accent-hover: #74c7ec;
+  --green: #a6e3a1;
+  --red: #f38ba8;
+  --yellow: #f9e2af;
+  --border: #45475a;
+  --radius: 6px;
+  --font: 'SFMono-Regular', 'Menlo', 'Monaco', 'Cascadia Code', 'Consolas', 'Liberation Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 13px;
+}
+
+body {
+  width: 480px;
+  max-height: 540px;
+  overflow-y: auto;
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-hover);
+}
+
+/* App layout */
+.app {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.settings-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.15s;
+}
+.settings-link:hover {
+  color: var(--accent);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.folder-name {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 280px;
+}
+
+/* Buttons — shared styles for primary, copy, and utility buttons */
+.btn {
+  font-family: var(--font);
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-sm {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.btn-copy {
+  background: var(--green);
+  color: var(--bg-primary);
+  border-color: var(--green);
+  font-weight: 600;
+  flex: 1;
+  justify-content: center;
+  padding: 8px 12px;
+}
+.btn-copy:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+/* Ignore section */
+.ignore-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label-small {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ignore-input {
+  font-family: var(--font);
+  font-size: 0.8rem;
+  padding: 6px 8px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  resize: vertical;
+  min-height: 52px;
+  line-height: 1.4;
+}
+.ignore-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+/* ── Large folder warning overlay ── */
+.large-warning {
+  background: rgba(249, 226, 175, 0.08);
+  border: 1px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.large-warning.hidden {
+  display: none;
+}
+
+.large-warning-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--yellow);
+  margin-bottom: 6px;
+}
+
+.large-warning-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.large-warning-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* Tree section */
+.tree-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tree-section.hidden {
+  display: none;
+}
+
+.tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.file-count {
+  color: var(--text-secondary);
+}
+
+.progress-display {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tree-container {
+  max-height: 180px;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 0;
+  font-size: 0.78rem;
+}
+
+.tree-item {
+  padding: 2px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+}
+
+.tree-item.skipped-item {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* ── Collapsible ignored files section ── */
+.ignored-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ignored-section.hidden {
+  display: none;
+}
+
+.ignored-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.ignored-toggle:hover {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+#ignoredToggleArrow {
+  font-size: 0.65rem;
+  transition: transform 0.2s;
+}
+#ignoredToggleArrow.expanded {
+  transform: rotate(90deg);
+}
+
+.ignored-list {
+  max-height: 100px;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 0;
+  font-size: 0.75rem;
+}
+.ignored-list.hidden {
+  display: none;
+}
+
+.ignored-file {
+  padding: 1px 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Warning section */
+.warning-section {
+  background: rgba(243, 139, 168, 0.1);
+  border: 1px solid var(--red);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+.warning-section.hidden {
+  display: none;
+}
+
+.warning-text {
+  font-size: 0.8rem;
+  color: var(--red);
+  word-break: break-word;
+}
+
+/* ── Stats and tree-only toggle ── */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stats-section.hidden {
+  display: none;
+}
+
+.stats-row {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox-label input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* Action section */
+.action-section {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.action-section.hidden {
+  display: none;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-surface);
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 100;
+  transition: opacity 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.toast.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
